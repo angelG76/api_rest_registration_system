@@ -1,0 +1,11 @@
+version: '3.1'
+
+services:
+  db:
+    image: mysql:8.0.33
+    container_name: system-register-container2
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db-system-register
+    ports:
+      - "3306:3306"
