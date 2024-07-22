@@ -59,7 +59,13 @@ public class StudentController {
             StudentDTO createdStudent = studentService.createStudent(studentDTO, personDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdStudent);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            ApiResponse<StudentDTO> response = new ApiResponse<>(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Error al guardar",
+                    "Ocurrió un error al guardar el estudiante",
+                    null
+            );
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response.getData());
         }
     }
 }

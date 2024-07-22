@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "sr_students")
-public class Student {
+public class StudentModel {
     @Id
     @Column(name = "student_id", length = 36)
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -27,5 +27,5 @@ public class Student {
 
     @OneToOne
     @JoinColumn(name = "person_id", referencedColumnName = "person_id")
-    private Person person;
+    private PersonModel personModel;
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Table(name = "sr_persons")
-public class Person {
+public class PersonModel {
 
     @Id
     @Column(name = "person_id", length = 36)
@@ -94,6 +94,6 @@ public class Person {
     @Column(name = "registration_status")
     private boolean registrationStatus;
 
-    @OneToOne(mappedBy = "person")
-    private Student student;
+    @OneToOne(mappedBy = "personModel")
+    private StudentModel studentModel;
 }

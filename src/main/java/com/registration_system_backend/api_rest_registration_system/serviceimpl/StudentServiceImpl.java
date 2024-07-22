@@ -4,8 +4,8 @@ import com.registration_system_backend.api_rest_registration_system.dto.PersonDT
 import com.registration_system_backend.api_rest_registration_system.dto.StudentDTO;
 import com.registration_system_backend.api_rest_registration_system.enums.CivilStatus;
 import com.registration_system_backend.api_rest_registration_system.enums.Gender;
-import com.registration_system_backend.api_rest_registration_system.model.Person;
-import com.registration_system_backend.api_rest_registration_system.model.Student;
+import com.registration_system_backend.api_rest_registration_system.model.PersonModel;
+import com.registration_system_backend.api_rest_registration_system.model.StudentModel;
 import com.registration_system_backend.api_rest_registration_system.repository.PersonRepository;
 import com.registration_system_backend.api_rest_registration_system.repository.StudentRepository;
 import com.registration_system_backend.api_rest_registration_system.service.StudentService;
@@ -23,82 +23,82 @@ public class StudentServiceImpl implements StudentService {
     private PersonRepository personRepository;
     @Override
     public StudentDTO getStudentById(UUID id) {
-        Student student = studentRepository.findById(id).orElse(null);
-        return convertToDTO(student);
+        StudentModel studentModel = studentRepository.findById(id).orElse(null);
+        return convertToDTO(studentModel);
     }
     @Override
     public StudentDTO createStudent(StudentDTO studentDTO, PersonDTO personDTO) {
-        Person person = new Person();
-        person.setPersonId(personDTO.getPersonId());
-        person.setFirstName(personDTO.getFirstName());
-        person.setSecondName(personDTO.getSecondName());
-        person.setSurname(personDTO.getSurname());
-        person.setSecondSurname(personDTO.getSecondSurname());
-        person.setDni(personDTO.getDni());
-        person.setBirthDate(personDTO.getBirthDate());
-        person.setGender(Gender.valueOf(personDTO.getGender()));
-        person.setCivilStatus(CivilStatus.valueOf(personDTO.getCivilStatus()));
-        person.setPhone(personDTO.getPhone());
-        person.setMail(personDTO.getMail());
-        person.setCity(personDTO.getCity());
-        person.setDepartment(personDTO.getDepartment());
-        person.setCountry(personDTO.getCountry());
-        person.setAddress(personDTO.getAddress());
-        person.setProfileImage(personDTO.getProfileImage());
-        person.setUsername(personDTO.getUsername());
-        person.setPassword(personDTO.getPassword());
-        person.setStatusUser(personDTO.getStatusUser());
-        person.setCreatedAt(personDTO.getCreatedAt());
-        person.setUpdatedAt(personDTO.getUpdatedAt());
-        person.setRegisteredBy(personDTO.getRegisteredBy());
-        person.setUpdatedBy(personDTO.getUpdatedBy());
-        person.setRegistrationStatus(personDTO.getRegistrationStatus());
+        PersonModel personModel = new PersonModel();
+        //personModel.setPersonId(personDTO.getPersonId());
+        personModel.setFirstName(personDTO.getFirstName());
+        personModel.setSecondName(personDTO.getSecondName());
+        personModel.setSurname(personDTO.getSurname());
+        personModel.setSecondSurname(personDTO.getSecondSurname());
+        personModel.setDni(personDTO.getDni());
+        personModel.setBirthDate(personDTO.getBirthDate());
+        personModel.setGender(Gender.valueOf(personDTO.getGender()));
+        personModel.setCivilStatus(CivilStatus.valueOf(personDTO.getCivilStatus()));
+        personModel.setPhone(personDTO.getPhone());
+        personModel.setMail(personDTO.getMail());
+        personModel.setCity(personDTO.getCity());
+        personModel.setDepartment(personDTO.getDepartment());
+        personModel.setCountry(personDTO.getCountry());
+        personModel.setAddress(personDTO.getAddress());
+        personModel.setProfileImage(personDTO.getProfileImage());
+        personModel.setUsername(personDTO.getUsername());
+        personModel.setPassword(personDTO.getPassword());
+        personModel.setStatusUser(personDTO.getStatusUser());
+        personModel.setCreatedAt(personDTO.getCreatedAt());
+        personModel.setUpdatedAt(personDTO.getUpdatedAt());
+        personModel.setRegisteredBy(personDTO.getRegisteredBy());
+        personModel.setUpdatedBy(personDTO.getUpdatedBy());
+        personModel.setRegistrationStatus(personDTO.getRegistrationStatus());
 
-        person = personRepository.save(person);
+        personModel = personRepository.save(personModel);
 
 
         // Crear la entidad Student y asociar la Person
-        Student student = new Student();
-        student.setStudentId(studentDTO.getStudentId());
-        student.setCreatedAt(studentDTO.getCreatedAt());
-        student.setUpdatedAt(studentDTO.getUpdatedAt());
-        student.setPerson(person);
+        StudentModel studentModel = new StudentModel();
+        //studentModel.setStudentId(studentDTO.getStudentId());
+        studentModel.setCreatedAt(studentDTO.getCreatedAt());
+        studentModel.setUpdatedAt(studentDTO.getUpdatedAt());
+        studentModel.setPersonModel(personModel);
 
         // Guardar la entidad Student
-        Student savedStudent = studentRepository.save(student);
+        StudentModel savedStudentModel = studentRepository.save(studentModel);
 
         // Convertir la entidad Student a DTO para devolver
-        return convertToDTO(savedStudent);
+        return convertToDTO(savedStudentModel);
     }
 
-    private StudentDTO convertToDTO(Student student) {
-        if (student == null) {
+    private StudentDTO convertToDTO(StudentModel studentModel) {
+        if (studentModel == null) {
             return null;
         }
 
         StudentDTO studentDTO = new StudentDTO();
-        studentDTO.setStudentId(student.getStudentId());
-        studentDTO.setPersonId(student.getPerson().getPersonId());
-        studentDTO.setCreatedAt(student.getCreatedAt());
-        studentDTO.setUpdatedAt(student.getUpdatedAt());
+        studentDTO.setStudentId(studentModel.getStudentId());
+        studentDTO.setPersonId(studentModel.getPersonModel().getPersonId());
+        studentDTO.setCreatedAt(studentModel.getCreatedAt());
+        studentDTO.setUpdatedAt(studentModel.getUpdatedAt());
 
         return studentDTO;
     }
 
-    private Student convertToEntity(StudentDTO studentDTO) {
+    private StudentModel convertToEntity(StudentDTO studentDTO) {
         if (studentDTO == null) {
             return null;
         }
 
-        Student student = new Student();
-        student.setStudentId(studentDTO.getStudentId());
-        student.setCreatedAt(studentDTO.getCreatedAt());
-        student.setUpdatedAt(studentDTO.getUpdatedAt());
+        StudentModel studentModel = new StudentModel();
+        studentModel.setStudentId(studentDTO.getStudentId());
+        studentModel.setCreatedAt(studentDTO.getCreatedAt());
+        studentModel.setUpdatedAt(studentDTO.getUpdatedAt());
 
         // Buscar la entidad Person por ID
         //Person person = personRepository.findById(studentDTO.getPersonId()).orElse(null);
         //student.setPersonId(person);
 
-        return student;
+        return studentModel;
     }
 }
